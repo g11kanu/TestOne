@@ -12,9 +12,10 @@ namespace WebJobBasicOne
     {
         // This function will get triggered/executed when a new message is written 
         // on an Azure Queue called queue.
-        public static void ProcessQueueMessage([QueueTrigger("inputtext")] string message, [Blob("basic/out.txt")] out string output)
-        {
-            output = string.Format("{0} Processed at {1}", message, DateTime.Now.ToString());
+        public static void ProcessQueueMessage([QueueTrigger("inputtext")] string message, [Blob("basic/out.txt")] string inStorage, [Blob("basic/out.txt")] out string output)
+        {            
+            inStorage += string.Format("\r\n{0} Processed at {1}", message, DateTime.Now.ToString());
+            output = inStorage;
         }
     }
 }

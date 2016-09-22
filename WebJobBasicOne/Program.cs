@@ -23,17 +23,15 @@ namespace WebJobBasicOne
 
             CloudQueueClient queueClient = storageAccount.CreateCloudQueueClient();
 
+            CloudQueue queue = queueClient.GetQueueReference("inputtext");
+            queue.CreateIfNotExists();
+
             var blobClient = storageAccount.CreateCloudBlobClient();
 
             var container = blobClient.GetContainerReference("basic");
             container.CreateIfNotExists();
 
-            var blob = container.GetBlockBlobReference("out.txt");
-
-            CloudQueue queue = queueClient.GetQueueReference("inputtext");
-            queue.CreateIfNotExists();
-
-            queue.AddMessage(new CloudQueueMessage("this is an input text."));
+            var blob = container.GetBlockBlobReference("out.txt");                        
 
             var host = new JobHost();
 
